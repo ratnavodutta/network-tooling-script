@@ -67,6 +67,34 @@ Press **Ctrl+C** at any time (live or quiet): PsPing is stopped, the summary is 
 > Quiet mode keeps running in the console window you started it in; it is not a detached service.
 > To keep it running after you log off, run it inside a persistent session (for example a scheduled task).
 
+## Example run
+
+The screenshots below show a continuous TCP probe to `8.8.8.8:443` in quiet mode, stopped with Ctrl+C.
+
+### Step 1: Answer the prompts
+
+Start the script and answer the prompts: target IP, probe type (`1` TCP), port (`443`), packets (`3` continuous) and output
+(`2` quiet). The console confirms the log file path and tells you to press **Ctrl+C** to stop. In quiet mode nothing more is
+printed unless a drop occurs.
+
+![Step 1: prompts and quiet mode start](images/01-prompts-quiet-mode.png)
+
+### Step 2: The log file fills in while it runs
+
+Open the `.txt` file from the `logs` folder at any time, even while the script is running. It starts with the header (host,
+probe type, target, packets, interval) and the exact PsPing command. Each probe then gets its own local timestamp and latency.
+
+![Step 2: log file while the probe is running](images/02-log-file-live.png)
+
+### Step 3: Press Ctrl+C and read the summary
+
+When you press Ctrl+C, PsPing stops and the log is closed with PsPing's own statistics and the script's **SUMMARY** block:
+start and end time, duration, probes sent, successes, drops, loss % and any outages. Here: 42 probes, 0 dropped, no outages.
+
+![Step 3: summary after Ctrl+C](images/03-summary-after-ctrl-c.png)
+
+If a drop had occurred, you would see `[DROP]` lines with timestamps in the log, and the outage start and end times in the summary.
+
 ## What gets logged
 
 Every line is prefixed with the **local time of the machine running the script**, including milliseconds and UTC offset:
